@@ -28,6 +28,14 @@ module SkypeMac
       def bookmarked_chats
         _search "BOOKMARKEDCHATS"
       end
+      def create(targets)
+        Base::send_command "CHAT CREATE #{targets}" do |result|
+          case result
+          when /^CHAT (.*) STATUS (.*)$/
+            return Chat.new $1
+          end
+        end
+      end
     end
 
     def initialize(id)
